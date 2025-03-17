@@ -12,6 +12,10 @@ jobs:
       - name: Check ip
         run: curl ifconfig.me
 
+      - name: install wg
+        run: sudo apt install wireguard -y
+        
+
       - name: Check version
         run: wg --version
 
