@@ -1,0 +1,17 @@
+name: vpn test
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  vpn_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup vpn
+        env:
+          VPN: ${{ secrets.VPN_TEST }}
+        run: echo "$VPN">wg.conf
+  
+  
