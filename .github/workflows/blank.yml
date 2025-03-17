@@ -9,9 +9,18 @@ jobs:
   vpn_test:
     runs-on: ubuntu-latest
     steps:
+      - name: Check ip
+        run: curl ifconfig.me
+
+      - name: Check version
+        run: wg --version
+
       - name: Setup vpn
         env:
           VPN: ${{ secrets.VPN_TEST }}
         run: echo "$VPN">wg.conf
+
+      - name: Check ip
+        run: curl ifconfig.me
   
   
