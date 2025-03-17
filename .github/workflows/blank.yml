@@ -28,6 +28,10 @@ jobs:
       - name: copy
         run: sudo cp wg.conf /etc/wireguard/wg0.conf
 
+      - name: start wg
+        run: sudo systemctl start wg-quick@wg0
+
+
       - name: Check ip
         run: curl ifconfig.me
   
