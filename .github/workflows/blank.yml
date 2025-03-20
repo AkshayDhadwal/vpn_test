@@ -1,4 +1,4 @@
-name: vpn test
+name: Frontend Deployment
 
 on:
   push:
@@ -6,33 +6,18 @@ on:
       - master
 
 jobs:
-  vpn_test:
+  deploy:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
-      - name: Check ip
-        run: curl ifconfig.me
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: install wg
-        run: sudo apt install wireguard -y
-
-
-      - name: Check version
-        run: wg --version
-
-      - name: Setup vpn
-        env:
-          VPN: ${{ secrets.VPN_TEST }}
-        run: echo "$VPN">wg.conf
-
-
-      - name: copy
-        run: sudo cp wg.conf /etc/wireguard/wg0.conf
-
-      - name: start wg
-        run: sudo sudo wg-quick up wg0
-
-
-      - name: Check ip
-        run: curl ifconfig.me
-  
-  
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: "projects/781583571951/locations/global/workloadIdentityPools/cricketgoo-github-identity-pool/providers/cricketgoo-github-idp"
+          service_account: "cricketgoo-github-sa@cricketgoo.iam.gserviceaccount.com"
